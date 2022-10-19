@@ -51,7 +51,7 @@ export const KAuth = (props) => {
 
   const onShouldLoadWithURL = (e) => {
     const url = e?.url || "";
-    //console.log("onShouldLoadWithURL: ", url);
+    console.log("onShouldLoadWithURL: ", url);
 
     //const regex = /[\/]auth\/(success|failed)/gmi;
     const regex = /[\/]auth\/(back|success|failed)/gmi;
