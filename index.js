@@ -1,14 +1,15 @@
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { /*Alert,*/ StyleSheet } from 'react-native';
 
 import { WebView } from 'react-native-webview';
 // import * as WebBrowser from 'expo-web-browser';
 // import * as Linking from 'expo-linking';
 
 const TR = (s) => (s.replace(/^\/|\/$/gmi, ''));
-const URL = (url, originURL) => (url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${TR(originURL)}/${TR(url)}`);
+const UData = (data) => ((data?.user?.id || data?.id || data?.token?.access_token) ? `?data=${JSON.stringify(data).trim()}` : '');
+const URL = (url, originURL, userData) => (url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${TR(originURL)}/${TR(url)}${UData(userData)}`);
 
 const styles = StyleSheet.create({
   webview: {
@@ -21,27 +22,29 @@ const styles = StyleSheet.create({
 });
 
 
-// For the WebView to load kokozi-auth-frontend
+// For the WebView, used to load kokozi-auth-frontend
 export const KAuth = (props) => {
-  const { onLoginCallback, onBridgeHidden, originURL='', requireMode='signin' } = props || {};
+  const { onLoginCallback, onBridgeHidden, originURL='', requireMode='signin', style } = props || {};
 
   const [state, setState] = useState({
     originURL: TR(originURL||"https://tom-dev.kokozi.co.kr"),
+    userData: {},
     requireMode,
     requestURL: `signin/email`,
     showWebView: true,
     text: "",
   });
 
+  // You must fill more event and page to open, every page should open /auth/{back|success|failed} to exit the browser
   const getRequestURL = (type) => `${({
     'signin': ``,
-    'signup': `/auth/user`,
+    'profile': `/auth/user`,
 
   }[`${type}` || 'login'])}`;
 
   useEffect(() => {
       const requestURL = getRequestURL(requireMode);
-      //console.log("On Change Mode display: ", state.requireMode, requestURL);
+      //console.log("On Change requireMode: ", requireMode, requestURL);
       setState(prev => ({ ...prev, requireMode, requestURL }));
   }, [requireMode]);
 
@@ -61,11 +64,11 @@ export const KAuth = (props) => {
           let data = url.split("?data=");
           data = decodeURIComponent(data[1]);
           data = JSON.parse(data);
-          //console.log("Data: ", data);
+          //console.log("Callback Data: ", data);
 
           const text = JSON.stringify(data, null, 2);
-          Alert.alert(text);
-          setState(prev => ({ ...prev, text }));
+          //Alert.alert(text);
+          setState(prev => ({ ...prev, text, userData: data }));
 
           if(typeof onLoginCallback === 'function') {
             setTimeout(async () => {
@@ -95,8 +98,8 @@ export const KAuth = (props) => {
     <>
     {(state?.showWebView) ? (
       <WebView
-        style={styles.webview}
-        source={{uri: URL(state.requestURL, state.originURL)}}
+        style={style || styles.webview}
+        source={{uri: URL(state.requestURL, state.originURL, state.userData)}}
         startInLoadingState
         onShouldStartLoadWithRequest={onShouldLoadWithURL}
       />
