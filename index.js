@@ -11,27 +11,19 @@ const TR = (s) => (s.replace(/^\/|\/$/gmi, ''));
 const URL = (url, originURL) => (url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${TR(originURL)}/${TR(s)}`);
 
 const styles = StyleSheet.create({
-  button: {
-    backgroundColor: "#ccc",
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   webview: {
     marginTop: 20,
-    backgroundColor: "#0ff",
+    backgroundColor: "#fff",
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
+  }
 });
 
+
+// For the WebView to load kokozi-auth-frontend
 export const KAuth = (props) => {
-  const { onLoginCallback, onBridgeHidden, originURL='', requireMode='login' } = props || {};
+  const { onLoginCallback, onBridgeHidden, originURL='', requireMode='signin' } = props || {};
 
   const [state, setState] = useState({
     originURL: TR(originURL||"https://tom-dev.kokozi.co.kr"),
