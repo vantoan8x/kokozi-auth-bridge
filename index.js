@@ -37,8 +37,9 @@ export const KAuth = (props) => {
 
   // You must fill more event and page to open, every page should open /auth/{back|success|failed} to exit the browser
   const getRequestURL = (type) => (`${({
-    'signin': ``, // Home page
-    'profile': `/auth/info`, // User information page
+    'signin'  : `/`, // Home page
+    'sinup'   : '/auth/find/completed',
+    'profile' : `/auth/info`, // User information page
 
   }[`${type}` || 'signin'])}` || '');
 
