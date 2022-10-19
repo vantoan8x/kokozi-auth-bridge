@@ -8,7 +8,7 @@ import { WebView } from 'react-native-webview';
 // import * as Linking from 'expo-linking';
 
 const TR = (s) => s.replace(/^\/|\/$/gmi, '');
-const URL = (url) => url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${state.originURL}/${TR(s)}`;
+const URL = (url, originURL) => url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${originURL}/${TR(s)}`;
 
 const styles = StyleSheet.create({
   button: {
@@ -102,7 +102,7 @@ export const KAuth = (props) => {
   return (
     <WebView
       style={styles.webview}
-      source={{uri: URL(state.requestURL)}}
+      source={{uri: URL(state.requestURL, state.originURL)}}
       startInLoadingState
       onShouldStartLoadWithRequest={onShouldLoadWithURL}
     />
