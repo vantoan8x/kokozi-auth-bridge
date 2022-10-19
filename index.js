@@ -41,12 +41,12 @@ export const KAuth = (props) => {
 
   useEffect(() => {
       const requestURL = getRequestURL(requireMode);
-      console.log("On Change Mode display: ", state.requireMode, requestURL);
+      //console.log("On Change Mode display: ", state.requireMode, requestURL);
       setState(prev => ({ ...prev, requireMode, requestURL }));
   }, [requireMode]);
 
   const onShouldLoadWithURL = (e) => {
-    const url = e.url || "";
+    const url = e?.url || "";
     //console.log("onShouldLoadWithURL: ", url);
 
     //const regex = /[\/]auth\/(success|failed)/gmi;
@@ -92,11 +92,15 @@ export const KAuth = (props) => {
   };
 
   return (
-    <WebView
-      style={styles.webview}
-      source={{uri: URL(state.requestURL, state.originURL)}}
-      startInLoadingState
-      onShouldStartLoadWithRequest={onShouldLoadWithURL}
-    />
+    <>
+    { state?.showWebView ? (
+      <WebView
+        style={styles.webview}
+        source={{uri: URL(state.requestURL, state.originURL)}}
+        startInLoadingState
+        onShouldStartLoadWithRequest={onShouldLoadWithURL}
+      />
+    ) : null }
+    </>
   );
 }
