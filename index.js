@@ -7,8 +7,8 @@ import { WebView } from 'react-native-webview';
 // import * as WebBrowser from 'expo-web-browser';
 // import * as Linking from 'expo-linking';
 
-const TR = (s) => s.replace(/^\/|\/$/gmi, '');
-const URL = (url, originURL) => url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${originURL}/${TR(s)}`;
+const TR = (s) => (s.replace(/^\/|\/$/gmi, ''));
+const URL = (url, originURL) => (url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${TR(originURL)}/${TR(s)}`);
 
 const styles = StyleSheet.create({
   button: {
