@@ -54,14 +54,14 @@ export const KAuth = (props) => {
 
     if(url.match(regex)) {
       const paths = url.split("/");
-      console.log("On Handle URL: -------------------- ", paths, paths[4]);
+      //console.log("On Handle URL: -------------------- ", paths, paths[4]);
 
       if((paths[4]||"").startsWith('success')) {
         try {
           let data = url.split("?data=");
           data = decodeURIComponent(data[1]);
           data = JSON.parse(data);
-          console.log("Data: ", data);
+          //console.log("Data: ", data);
 
           const text = JSON.stringify(data, null, 2);
           Alert.alert(text);
@@ -78,13 +78,13 @@ export const KAuth = (props) => {
         }
       }
 
-      setState(prev => ({ ...prev, showWebView: false }));
       if(typeof onBridgeHidden === 'function') {
         setTimeout(async () => {
           await onBridgeHidden();
         }, 5);
       }
 
+      setState(prev => ({ ...prev, showWebView: false }));
       return false;
     }
 
@@ -93,7 +93,7 @@ export const KAuth = (props) => {
 
   return (
     <>
-    { state?.showWebView ? (
+    {(state?.showWebView) ? (
       <WebView
         style={styles.webview}
         source={{uri: URL(state.requestURL, state.originURL)}}
