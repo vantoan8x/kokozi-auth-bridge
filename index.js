@@ -37,8 +37,9 @@ export const KAuth = (props) => {
 
   // You must fill more event and page to open, every page should open /auth/{back|success|failed} to exit the browser
   const getRequestURL = (type) => (`${({
+    'home'    : `/`, // Home page
     'signin'  : `/`, // Home page
-    'sinup'   : '/auth/find/completed',
+    'signup'  : '/auth/find/completed',
     'profile' : `/auth/info`, // User information page
 
   }[`${type}` || 'signin'])}` || '');
@@ -51,7 +52,7 @@ export const KAuth = (props) => {
 
   const onShouldLoadWithURL = (e) => {
     const url = e?.url || "";
-    console.log("onShouldLoadWithURL: ", url);
+    //console.log("onShouldLoadWithURL: ", url);
 
     //const regex = /[\/]auth\/(success|failed)/gmi;
     const regex = /[\/]auth\/(back|success|failed)/gmi;
