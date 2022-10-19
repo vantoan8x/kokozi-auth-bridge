@@ -1,6 +1,6 @@
 {
   "name": "kokozi-auth-bridge",
-  "version": "0.1.2",
+  "version": "0.1.0",
   "license": "Kokozi House",
   "author": "Tom BaNa",
   "dependencies": {
