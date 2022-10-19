@@ -52,7 +52,7 @@ export const KAuth = (props) => {
     //const regex = /[\/]auth\/(success|failed)/gmi;
     const regex = /[\/]auth\/(back|success|failed)/gmi;
 
-    if(url.match(regex)) {
+    if(url.startsWith(state?.originURL) && url.match(regex)) {
       const paths = url.split("/");
       //console.log("On Handle URL: -------------------- ", paths, paths[4]);
 
