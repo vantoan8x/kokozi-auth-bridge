@@ -36,11 +36,11 @@ export const KAuth = (props) => {
   });
 
   // You must fill more event and page to open, every page should open /auth/{back|success|failed} to exit the browser
-  const getRequestURL = (type) => `${({
+  const getRequestURL = (type) => (`${({
     'signin': ``, // Home page
     'profile': `/auth/info`, // User information page
 
-  }[`${type}` || 'login'])}`;
+  }[`${type}` || 'signin'])}` || '');
 
   useEffect(() => {
       const requestURL = getRequestURL(requireMode);
