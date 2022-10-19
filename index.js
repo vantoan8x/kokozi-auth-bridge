@@ -8,7 +8,7 @@ import { WebView } from 'react-native-webview';
 // import * as Linking from 'expo-linking';
 
 const TR = (s) => (s.replace(/^\/|\/$/gmi, ''));
-const UData = (data) => ((data?.user?.id || data?.id || data?.token?.access_token) ? `?data=${JSON.stringify(data).trim()}` : '');
+const UData = (data) => ((data?.user?.id || data?.id || data?.token?.access_token) ? `?data=${encodeURIComponent(JSON.stringify(data).trim())}` : '');
 const URL = (url, originURL, userData) => (url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${TR(originURL)}/${TR(url)}${UData(userData)}`);
 
 const styles = StyleSheet.create({
@@ -37,8 +37,8 @@ export const KAuth = (props) => {
 
   // You must fill more event and page to open, every page should open /auth/{back|success|failed} to exit the browser
   const getRequestURL = (type) => `${({
-    'signin': ``,
-    'profile': `/auth/user`,
+    'signin': ``, // Home page
+    'profile': `/auth/info`, // User information page
 
   }[`${type}` || 'login'])}`;
 
