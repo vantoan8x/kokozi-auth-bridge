@@ -3,11 +3,12 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { Alert, StyleSheet } from 'react-native';
 
-const URI = 'https://tom-dev.kokozi.co.kr/auth';
-
 import { WebView } from 'react-native-webview';
 // import * as WebBrowser from 'expo-web-browser';
 // import * as Linking from 'expo-linking';
+
+const TR = (s) => s.replace(/^\/|\/$/gmi, '');
+const URL = (url) => url.match(/^http[s]{0,1}[:]\/\//gmi) ? url : `${state.originURL}/${TR(s)}`;
 
 const styles = StyleSheet.create({
   button: {
@@ -30,17 +31,20 @@ const styles = StyleSheet.create({
 });
 
 export const KAuth = (props) => {
-  const { onLoginCallback, onBridgeHidden, requireMode='login' } = props || {};
+  const { onLoginCallback, onBridgeHidden, originURL='', requireMode='login' } = props || {};
 
   const [state, setState] = useState({
+    originURL: TR(originURL||"https://tom-dev.kokozi.co.kr"),
     requireMode,
-    requestURL: `${URI}/signin/email`,
+    requestURL: `signin/email`,
     showWebView: true,
     text: "",
   });
 
   const getRequestURL = (type) => `${({
-    'login': `${URI}/signin/email`
+    'signin': ``,
+    'signup': `/auth/user`,
+
   }[`${type}` || 'login'])}`;
 
   useEffect(() => {
@@ -98,7 +102,7 @@ export const KAuth = (props) => {
   return (
     <WebView
       style={styles.webview}
-      source={{uri: state.requestURL}}
+      source={{uri: URL(state.requestURL)}}
       startInLoadingState
       onShouldStartLoadWithRequest={onShouldLoadWithURL}
     />
